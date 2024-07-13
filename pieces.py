@@ -1,23 +1,31 @@
 import os
 from colorama import Fore
 
+def check_letter(letter: str) -> bool:
+    letters = ["A", "B", "C", "D", "E", "F", "G", "H"]
+    for let in letters:
+        if letter == let: return True
+    return False
+
 class Empty:
     def __init__(self):
-        return
+        self.color = Fore.RESET
+        
 
     def __repr__(self):
         return "□"
 
 
 class Piece:
-    def __init__(self, position: (str, int)):
+    def __init__(self, position: (str, int), color: str):
         self.position = position
+        self.color = color
     
     def __repr__(self):
         return "?"
 
 class Board:
-    def __init__(self, selection: (str, int), selectionColor: int = Fore.CYAN):
+    def __init__(self, selection: (str, int), selectionColor: str = Fore.CYAN):
         self.positions = {
             "A": [],
             "B": [],
@@ -45,7 +53,7 @@ class Board:
         
         
         def print_letters():
-            line = "  "
+            line = f"{Fore.WHITE}  "
             for letter in self.positions:
                 line += f"{letter} "
 
@@ -56,17 +64,19 @@ class Board:
         board = ""
 
         for i in range(8):
-            board += f"{i + 1} "
+            board += f"{Fore.WHITE}{i + 1} "
             for letter in self.positions:
-                color = Fore.WHITE
+                
                 piece = self.positions[letter][i]
+                
+                color = piece.color
                 
                 if (letter, i + 1) == self.selection:
                     color = self.selectionColor
                 
                 board += color + piece.__repr__() + " "
 
-            board += f"{i + 1} "
+            board += f"{Fore.WHITE}{i + 1} "
             if i < 7:
                 board += "\n"
 
@@ -77,7 +87,44 @@ class Board:
         print()
 
             
+class Pawn(Piece):
+    def __init__(self, position: (str, int), color: str):
+        super().__init__(position=position, color=color)
 
-        
+    def __repr__(self) -> str:
+        return "♟"
 
+class Castle(Piece):
+    def __init__(self, position: (str, int), color: str):
+        super().__init__(position=position, color=color)
 
+    def __repr__(self) -> str:
+        return "♜"
+
+class Knight(Piece):
+    def __init__(self, position: (str, int), color: str):
+        super().__init__(position=position, color=color)
+
+    def __repr__(self) -> str:
+        return "♞"
+
+class Bishop(Piece):
+    def __init__(self, position: (str, int), color: str):
+        super().__init__(position=position, color=color)
+
+    def __repr__(self) -> str:
+        return "♝"
+
+class King(Piece):
+    def __init__(self, position: (str, int), color: str):
+        super().__init__(position=position, color=color)
+
+    def __repr__(self) -> str:
+        return "♚"
+
+class Queen(Piece):
+    def __init__(self, position: (str, int), color: str):
+        super().__init__(position=position, color=color)
+
+    def __repr__(self) -> str:
+        return "♛"
